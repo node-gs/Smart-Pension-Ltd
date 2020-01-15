@@ -1,7 +1,6 @@
 require './presenter'
 
 describe Presenter do
-  formatted_views = ["/help_page/1 184.123.665.067", "/help_page/1 184.123.665.067", "/contact 184.123.665.067", "/help_page/1 126.318.035.038"]
   formatted_data_structure = [
     {
       endpoint: "/help_page/1",
