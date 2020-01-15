@@ -37,6 +37,15 @@ class Parser
         puts "#{view[:endpoint]} #{view[:unique_visits]} unique views"
       end
   end
+
+  def present_views by_type:
+    process_formatted_views
+      .sort_by { |view| view[by_type] }
+      .reverse
+      .each do |view|
+        puts "#{view[:endpoint]} #{view[by_type]} #{by_type.to_s.split("_").join(" ")}"
+      end
+  end
 private
   def calculate_ips current_endpoint
     read_file
@@ -44,7 +53,3 @@ private
       .compact
   end
 end
-
-# parser = Parser.new(log: ARGV[0])
-# parser.present_total_views
-# parser.present_unique_views

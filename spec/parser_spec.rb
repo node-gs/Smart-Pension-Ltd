@@ -39,4 +39,10 @@ describe Parser do
     allow(parser).to receive(:process_formatted_views).and_return(formatted_data_structure.reverse)
     expect { parser.present_unique_views }.to output("/help_page/1 2 unique views\n/contact 1 unique views\n").to_stdout
   end
+
+  it 'can output ordered views by type per endpoint to stdout' do
+    parser = described_class.new(log: '')
+    allow(parser).to receive(:process_formatted_views).and_return(formatted_data_structure.reverse)
+    expect { parser.present_views(by_type: :unique_visits) }.to output("/help_page/1 2 unique visits\n/contact 1 unique visits\n").to_stdout
+  end
 end
