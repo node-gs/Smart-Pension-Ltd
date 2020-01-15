@@ -25,24 +25,15 @@ describe Parser do
   it 'can process a file into an appropriate data structure' do
     parser = described_class.new(log: '')
     allow(parser).to receive(:read_file).and_return(formatted_views)
+
     expect(parser.process_formatted_views).to eq formatted_data_structure 
-  end
-
-  it 'can output ordered total views per endpoint to stdout' do
-    parser = described_class.new(log: '')
-    allow(parser).to receive(:process_formatted_views).and_return(formatted_data_structure.reverse)
-    expect { parser.present_total_views }.to output("/help_page/1 3 visits\n/contact 1 visits\n").to_stdout
-  end
-
-  it 'can output ordered unique views per endpoint to stdout' do
-    parser = described_class.new(log: '')
-    allow(parser).to receive(:process_formatted_views).and_return(formatted_data_structure.reverse)
-    expect { parser.present_unique_views }.to output("/help_page/1 2 unique views\n/contact 1 unique views\n").to_stdout
   end
 
   it 'can output ordered views by type per endpoint to stdout' do
     parser = described_class.new(log: '')
     allow(parser).to receive(:process_formatted_views).and_return(formatted_data_structure.reverse)
+
     expect { parser.present_views(by_type: :unique_visits) }.to output("/help_page/1 2 unique visits\n/contact 1 unique visits\n").to_stdout
+    expect { parser.present_views(by_type: :visits) }.to output("/help_page/1 3 visits\n/contact 1 visits\n").to_stdout
   end
 end

@@ -20,24 +20,6 @@ class Parser
     formatted_views.uniq { |view| view[:endpoint]} 
   end
 
-  def present_total_views
-    process_formatted_views
-    .sort_by { |view| view[:visits] }
-    .reverse
-    .each do |view|
-      puts "#{view[:endpoint]} #{view[:visits]} visits"
-    end
-  end
-
-  def present_unique_views
-    process_formatted_views
-      .sort_by { |view| view[:unique_visits] }
-      .reverse
-      .each do |view|
-        puts "#{view[:endpoint]} #{view[:unique_visits]} unique views"
-      end
-  end
-
   def present_views by_type:
     process_formatted_views
       .sort_by { |view| view[by_type] }
@@ -53,3 +35,4 @@ private
       .compact
   end
 end
+ 
