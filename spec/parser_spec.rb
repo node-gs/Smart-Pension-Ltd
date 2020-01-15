@@ -28,9 +28,15 @@ describe Parser do
     expect(parser.process_formatted_views).to eq formatted_data_structure 
   end
 
-  it 'can output results to stdout' do
+  it 'can output total views per endpoint to stdout' do
     parser = described_class.new(log: '')
     allow(parser).to receive(:process_formatted_views).and_return(formatted_data_structure)
     expect { parser.present_total_views }.to output("/help_page/1 3 visits\n/contact 1 visits\n").to_stdout
+  end
+
+  it 'can output unique views per endpoint to stdout' do
+    parser = described_class.new(log: '')
+    allow(parser).to receive(:process_formatted_views).and_return(formatted_data_structure)
+    expect { parser.present_unique_views }.to output("/help_page/1 2 unique views\n/contact 1 unique views\n").to_stdout
   end
 end
