@@ -19,12 +19,18 @@ describe Parser do
   it 'can read a file' do
     expect(File).to receive(:read).and_return("line one \n line two")
 
-    described_class.new(log: 'some string').read_file
+    described_class.new(log: '').read_file
   end
 
   it 'can process a file into an appropriate data structure' do
-    parser = described_class.new(log: 'some string')
+    parser = described_class.new(log: '')
     allow(parser).to receive(:read_file).and_return(formatted_views)
     expect(parser.process_formatted_views).to eq formatted_data_structure 
+  end
+
+  it 'can output results to stdout' do
+    parser = described_class.new(log: '')
+    allow(parser).to receive(:process_formatted_views).and_return(formatted_data_structure)
+    expect { parser.present_total_views }.to output("/help_page/1 3 visits\n/contact 1 visits\n").to_stdout
   end
 end

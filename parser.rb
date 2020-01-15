@@ -20,6 +20,12 @@ class Parser
     formatted_views.uniq { |view| view[:endpoint]} 
   end
 
+  def present_total_views
+    process_formatted_views.each do |view|
+      puts "#{view[:endpoint]} #{view[:visits]} visits"
+    end
+  end
+
 private
   def calculate_ips current_endpoint
     read_file
