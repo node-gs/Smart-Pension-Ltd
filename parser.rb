@@ -21,15 +21,21 @@ class Parser
   end
 
   def present_total_views
-    process_formatted_views.each do |view|
+    process_formatted_views
+    .sort_by { |view| view[:visits] }
+    .reverse
+    .each do |view|
       puts "#{view[:endpoint]} #{view[:visits]} visits"
     end
   end
 
   def present_unique_views
-    process_formatted_views.each do |view|
-      puts "#{view[:endpoint]} #{view[:unique_visits]} unique views"
-    end
+    process_formatted_views
+      .sort_by { |view| view[:unique_visits] }
+      .reverse
+      .each do |view|
+        puts "#{view[:endpoint]} #{view[:unique_visits]} unique views"
+      end
   end
 private
   def calculate_ips current_endpoint
@@ -39,6 +45,6 @@ private
   end
 end
 
-parser = Parser.new(log: ARGV[0])
-parser.present_total_views
-parser.present_unique_views
+# parser = Parser.new(log: ARGV[0])
+# parser.present_total_views
+# parser.present_unique_views
