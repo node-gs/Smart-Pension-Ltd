@@ -6,14 +6,15 @@ class Processor
   def process_log 
     formatted_views = read_file.map do |view|
       current_endpoint = view.split.first
+      calculated_ips = calculate_ips current_endpoint 
       {
         endpoint: current_endpoint,
-        ips: calculate_ips(current_endpoint),
-        visits: calculate_ips(current_endpoint).size,
-        unique_visits: calculate_ips(current_endpoint).uniq.size
+        ips: calculated_ips,
+        visits: calculated_ips.size,
+        unique_visits: calculated_ips.uniq.size
       }
     end
-    formatted_views.uniq { |view| view[:endpoint]} 
+    formatted_views.uniq { |view| view[:endpoint] } 
   end
 private
   def read_file 
