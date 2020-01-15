@@ -1,8 +1,14 @@
 class Parser
-  def initialize log:
+  def initialize log:, presenter:
     @log = log
+    @presenter = presenter
   end
 
+  def present_views by_type:
+    @presenter.call(process_formatted_views, by_type)
+  end
+
+private
   def read_file 
     File.read(@log).split("\n")
   end
@@ -19,16 +25,7 @@ class Parser
     end
     formatted_views.uniq { |view| view[:endpoint]} 
   end
-
-  def present_views by_type:
-    process_formatted_views
-      .sort_by { |view| view[by_type] }
-      .reverse
-      .each do |view|
-        puts "#{view[:endpoint]} #{view[by_type]} #{by_type.to_s.split("_").join(" ")}"
-      end
-  end
-private
+  
   def calculate_ips current_endpoint
     read_file
       .map { |view| view.split[1] if current_endpoint == view.split.first }

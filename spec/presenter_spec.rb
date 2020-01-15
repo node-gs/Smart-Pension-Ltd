@@ -1,6 +1,6 @@
-require './parser'
+require './presenter'
 
-describe Parser do
+describe Presenter do
   formatted_views = ["/help_page/1 184.123.665.067", "/help_page/1 184.123.665.067", "/contact 184.123.665.067", "/help_page/1 126.318.035.038"]
   formatted_data_structure = [
     {
@@ -17,13 +17,8 @@ describe Parser do
     }
   ]
 
-  it 'sends a message to a presenter with formatted data' do
-    presenter = double("Presenter")
-    parser = described_class.new(log: '', presenter: presenter)
-    allow(parser).to receive(:read_file).and_return(formatted_views)
-    
-    expect(presenter).to receive(:call).with(formatted_data_structure, :unique_visits)
-    parser.present_views(by_type: :unique_visits)
+  it 'can output ordered views by type per endpoint to stdout' do
+    expect { described_class.call(formatted_data_structure.reverse, :unique_visits) }.to output("/help_page/1 2 unique visits\n/contact 1 unique visits\n").to_stdout
+    expect { described_class.call(formatted_data_structure.reverse, :visits) }.to output("/help_page/1 3 visits\n/contact 1 visits\n").to_stdout
   end
-
 end
